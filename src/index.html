@@ -1,39 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri App</title>
-    <script type="module" src="/main.js" defer></script>
-  </head>
 
-  <body>
-    <main class="container">
-      <h1>Welcome to Tauri</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Web Monitor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-      <div class="row">
-        <a href="https://tauri.app" target="_blank">
-          <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
-        </a>
-        <a
-          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-          target="_blank"
-        >
-          <img
-            src="/assets/javascript.svg"
-            class="logo vanilla"
-            alt="JavaScript logo"
-          />
-        </a>
-      </div>
-      <p>Click on the Tauri logo to learn more about the framework</p>
+<body>
+  <div class="container">
+    <h1>🔍 Dark Web Breach Checker</h1>
+    <input type="email" id="email" placeholder="Enter your email">
+    <button id="check-btn">Check Now</button>
+    <div id="results"></div>
+  </div>
 
-      <form class="row" id="greet-form">
-        <input id="greet-input" placeholder="Enter a name..." />
-        <button type="submit">Greet</button>
-      </form>
-      <p id="greet-msg"></p>
-    </main>
-  </body>
+  <script src="api.js"></script>
+  <script>
+    document.getElementById("check-btn").addEventListener("click", async () => {
+      const email = document.getElementById("email").value;
+      if (!email) {
+        alert("Please enter a valid email.");
+        return;
+      }
+
+      const results = await checkBreach(email);
+      const resultDiv = document.getElementById("results");
+
+      if (results.length > 0) {
+        resultDiv.innerHTML = `<h2>⚠️ Breaches Found:</h2>`;
+        results.forEach(breach => {
+          resultDiv.innerHTML += `<p><strong>${breach.name}</strong> - ${breach.breach_date}</p>`;
+        });
+      } else {
+        resultDiv.innerHTML = `<p>No breaches found.</p>`;
+      }
+    });
+  </script>
+</body>
+
 </html>
