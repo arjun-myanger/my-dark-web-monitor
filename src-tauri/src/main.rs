@@ -1,6 +1,8 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+mod api;
 
 fn main() {
-    my_dark_web_monitor_lib::run()
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![api::check_breach])
+        .run(tauri::generate_context!())
+        .expect("error while running Tauri application");
 }
